@@ -49,7 +49,9 @@ else if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
   html();
 }
-else {
+else
+{
   throw new Exception("Unknown request method!");
 }
+
 ?>
