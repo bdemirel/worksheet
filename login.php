@@ -8,6 +8,21 @@ if (isset($_SESSION['username']))
   header("location:index.php");
 }
 
+function html($message = null)
+{
+  $html = "
+  <form method='post'>
+    <input type='text' name='username' placeholder='username'>
+    <br>
+    <input type='password' name='password' placeholder='password'>
+    <br>
+    <input type='submit' name='submit' value='Sign In'>
+  </form>
+  $message
+  ";
+  template($html);
+}
+
 if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
   foreach($_POST as $name => $data)
@@ -36,20 +51,5 @@ else if ($_SERVER['REQUEST_METHOD'] == "GET")
 }
 else {
   throw new Exception("Unknown request method!");
-}
-
-function html($message = null)
-{
-  $html = "
-  <form method='post'>
-    <input type='text' name='username' placeholder='username'>
-    <br>
-    <input type='password' name='password' placeholder='password'>
-    <br>
-    <input type='submit' name='submit' value='Sign In'>
-  </form>
-  $message
-  ";
-  template($html);
 }
 ?>
