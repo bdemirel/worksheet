@@ -2,7 +2,7 @@
 
 function handler($Exception)
 {
-  die("Exception: ", $exception->getMessage(), "\n");
+  die("Exception: " . $Exception->getMessage() . "\n");
 }
 
 set_exception_handler('handler');

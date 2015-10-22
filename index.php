@@ -1,5 +1,5 @@
 <?php
-
+error_reporting(E_ALL & ~E_NOTICE);
 include_once "template.php";
 session_start();
 
@@ -8,7 +8,7 @@ if (!isset($_SESSION['username']))
   header("location:login.php");
 }
 
-function html()
+function html($rows=null)
 {
   $html = "
   <form method='post'>
@@ -32,7 +32,7 @@ function html()
         </th>
       </thead>
       <tbody>
-
+        $rows
       </tbody>
     </table>
   </form>
@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 
     $rows .= "
     <tr>
-      <input type="checkbox" name="selected[]" value="$qid">
+      <input type='checkbox' name='selected[]' value='$qid'>
     </tr>
     <tr>
       $text
@@ -62,6 +62,26 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
       $topic / $stopic
     </tr>";
   }
+
+  html($rows);
+}
+else if ($_SERVER['REQUEST_METHOD'] == "POST")
+{
+  if (isset($_POST['add'])||isset($_POST['edit']))
+  {
+    header("HTTP/1.1 307 Temporary Redirect");
+    header("location:questions.php");
+  }
+  else if (isset($_POST['prepare']))
+  {
+    header("HTTP/1.1 307 Temporary Redirect");
+    header("location:worksheets.php");
+  }
+  else
+  {
+    throw new Exception('Unknown submit type!');
+  }
+
 }
 else
 {
