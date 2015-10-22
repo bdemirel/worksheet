@@ -67,8 +67,11 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 }
 else if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
-  if (isset($_POST['add'])||isset($_POST['edit']))
+  if (isset($_POST['add']))
   {
+    header("location:questions.php");
+  }
+  elseif (isset($_POST['edit'])) {
     header("HTTP/1.1 307 Temporary Redirect");
     header("location:questions.php");
   }
@@ -81,7 +84,6 @@ else if ($_SERVER['REQUEST_METHOD'] == "POST")
   {
     throw new Exception('Unknown submit type!');
   }
-
 }
 else
 {
