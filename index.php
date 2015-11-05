@@ -42,12 +42,14 @@ function html($rows=null)
 
 if ($_SERVER['REQUEST_METHOD'] == "GET")
 {
-  $row = null;
-  $stmt = $dbo ->prepare("SELECT question FROM questions");
+  $rows = null;
+  $stmt = $dbo -> prepare("SELECT question FROM questions");
   $stmt -> execute();
-  $questions = $stmt ->fetchAll(PDO::FETCH_ASSOC);
-  foreach ($questions as $row) {
-    foreach ($row as $key => $value) {
+  $questions = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+  foreach ($questions as $row)
+  {
+    foreach ($row as $key => $value)
+    {
       ${$key} = $value;
     }
 
