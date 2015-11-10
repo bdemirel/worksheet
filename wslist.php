@@ -5,7 +5,7 @@ session_start();
 
 if (!isset($_SESSION['username']))
 {
-  header("location:login.php");
+  //header("location:login.php");
 }
 
 function html()
@@ -14,25 +14,27 @@ function html()
   <span>
     Worksheets:
   </span>
-  <table>
-    <thead>
-      <th>
-        Name
-      </th>
-      <th>
-        Subject
-      </th>
-      <th>
-        Teacher
-      </th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </thead>
-    <tbody>
+  <form method='POST'>
+    <table>
+      <thead>
+        <th>
+          Name
+        </th>
+        <th>
+          Subject
+        </th>
+        <th>
+          Teacher
+        </th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </thead>
+      <tbody>
 
-    </tbody>
-  </table>";
+      </tbody>
+    </table>
+  </form>";
   template($html);
 }
 
@@ -60,13 +62,19 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
           $teacher
         </td>
         <td>
-          <input type='submit' name='pdf_{$ws_id}' value='Download/Print'>
+          <button type='submit' name='pdf' value='{$ws_id}'>
+            Download/Print
+          </button>
         </td>
         <td>
-          <input type='submit' name='edit_{$ws_id}' value='Copy&Edit'>
+          <button type='submit' name='edit' value='{$ws_id}'>
+            Copy&Edit
+          </button>
         </td>
         <td>
-          <input type='submit' name='del_{$ws_id}' value='Delete'>
+          <button type='submit' name='del' value='{$ws_id}'>
+            Delete
+          </button>
         </td>
       </tr>
     ";
@@ -74,31 +82,28 @@ if ($_SERVER['REQUEST_METHOD'] == "GET")
 
   html();
 }
-else if ($_SERVER[REQUEST_METHOD] == "POST")
+else if ($_SERVER['REQUEST_METHOD'] == "POST")
 {
-  foreach ($_POST as $key => $value)
-  {
-    $type = explode($key, "_")[0];
-    $id = explode($key, "_")[1];
+  $id = current($_POST);
+  $type = current(array_keys($_POST));
 
-    if ($type == "pdf")
-    {
-      header("location:pdf.php?id={$id}");
-    }
-    else if ($type == "edit")
-    {
-      header("location:worksheets.php?id={$id}");
-    }
-    else if ($type == "del")
-    {
-      $stmt = $dbo -> prepare("DELETE FROM worksheets WHERE ws_id=:id");
-      $stmt -> bindParam(":id", $id);
-      $stmt -> execute();
-    }
-    else
-    {
-      throw new Exception("Unkown worksheet command!");
-    }
+  if ($type == "pdf")
+  {
+    header("location:pdf.php?id={$id}");
+  }
+  else if ($type == "edit")
+  {
+    header("location:worksheets.php?id={$id}");
+  }
+  else if ($type == "del")
+  {
+    $stmt = $dbo -> prepare("DELETE FROM worksheets WHERE ws_id=:id");
+    $stmt -> bindParam(":id", $id);
+    $stmt -> execute();
+  }
+  else
+  {
+    throw new Exception("Unknown worksheet command!");
   }
 }
 else
