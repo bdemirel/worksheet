@@ -45,10 +45,38 @@ function html($topics, $questions, $type=array('ws'=>null,'ct'=>null), $name=nul
     <select name='topic'>
       $topics
     </select>
+    <select name='testno' id='testno' style='display:none'>
+      <option value='1.1'>
+        Term 1 Exam 1
+      </option>
+      <option value='1.2'>
+        Term 1 Exam 2
+      </option>
+      <option value='1.3'>
+        Term 1 Exam 3
+      </option>
+      <option value='2.1'>
+        Term 2 Exam 1
+      </option>
+      <option value='2.2'>
+        Term 2 Exam 2
+      </option>
+      <option value='2.3'>
+        Term 2 Exam 3
+      </option>
+    </select>
     $questions
     <input type='submit' name='button' value='Save Document'>
   </form>
-  <script src='testno.js'></script>
+  <script>
+    document.ready(function()
+    {
+      if (document.getElementsByName('type')[1].checked)
+      {
+        document.getElementById('testno').style.display = 'inline-block';
+      }
+    });
+  </script>
   ";
   template($html);
 }
